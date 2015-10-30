@@ -1,6 +1,10 @@
 class Cache
   constructor: ({@client}) ->
 
+  exists: (key, callback) =>
+    @client.exists key, (error, result) =>
+      callback error, (result == 1)
+
   get: (key, callback) =>
     @client.get key, callback
 

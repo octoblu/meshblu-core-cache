@@ -8,6 +8,24 @@ describe 'Cache', ->
     @client = redis.createClient @clientKey
     @sut = new Cache client: redis.createClient(@clientKey)
 
+  describe '->exists', ->
+    describe 'when there is nothing', ->
+      beforeEach (done) ->
+        @sut.exists 'rolling-pin', (error, @result) => done error
+
+      it 'should yield false', ->
+        expect(@result).to.be.false
+
+    describe 'when there is something', ->
+      beforeEach (done) ->
+        @client.set 'tray-table-in-wrong-position', 'up-your-nose-qualifies-as-wrong-position', done
+
+      beforeEach (done) ->
+        @sut.exists 'tray-table-in-wrong-position', (error, @result) => done error
+
+      it 'should yield the TRUTH', ->
+        expect(@result).to.be.true
+
   describe '->get', ->
     describe 'when there is nothing', ->
       beforeEach (done) ->
