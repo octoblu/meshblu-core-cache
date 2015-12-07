@@ -58,3 +58,13 @@ describe 'Cache', ->
 
       it 'should exist', ->
         expect(@record).to.equal 'here-lies-the-rev-lt-col-dr-sir-john-doe-mba-phd-esq'
+
+  describe '->lpush', ->
+    describe 'when there is something', ->
+      beforeEach (done) ->
+        @sut.lpush 'hanged-by-the-british', 'gallows-humour', (error) => done error
+
+      it 'should yield the TRUTH', (done) ->
+        @client.rpop 'hanged-by-the-british', (error, result) =>
+          expect(result).to.equal 'gallows-humour'
+          done error
