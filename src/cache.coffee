@@ -14,4 +14,7 @@ class Cache
   set: (key, value, callback) =>
     @client.set key, value, (error, ignored) => callback error
 
+  setex: (key, time, value, callback) =>
+    @client.setex key, time, value, (error, ignored) => callback error
+
 module.exports = Cache
