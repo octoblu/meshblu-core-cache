@@ -8,6 +8,19 @@ describe 'Cache', ->
     @client = redis.createClient @clientKey
     @sut = new Cache client: redis.createClient(@clientKey)
 
+  describe '->del', ->
+    describe 'when there is something', ->
+      beforeEach (done) ->
+        @client.set 'some-extant-key', 'voracious-animals', done
+
+      beforeEach (done) ->
+        @sut.del 'some-extant-key', (error) => done error
+
+      it 'should not exist', (done) ->
+        @client.exists 'some-extant-key', (error, result) =>
+          expect(result).to.equal 0
+          done()
+
   describe '->exists', ->
     describe 'when there is nothing', ->
       beforeEach (done) ->

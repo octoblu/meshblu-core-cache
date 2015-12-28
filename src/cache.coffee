@@ -1,6 +1,9 @@
 class Cache
   constructor: ({@client}) ->
 
+  del: (key, callback) =>
+    @client.del key, callback
+
   exists: (key, callback) =>
     @client.exists key, (error, result) =>
       callback error, (result == 1)
