@@ -1,3 +1,4 @@
+_ = require 'lodash'
 redis = require 'fakeredis'
 uuid  = require 'uuid'
 Cache = require '../src/cache'
@@ -81,3 +82,19 @@ describe 'Cache', ->
         @client.rpop 'hanged-by-the-british', (error, result) =>
           expect(result).to.equal 'gallows-humour'
           done error
+
+  describe '->publish', ->
+    describe 'when there is something', ->
+      beforeEach (done) ->
+        @client.subscribe 'hanged-by-the-british', (error, @message) => done error
+
+      beforeEach (done) ->
+        @sut.publish 'hanged-by-the-british', 'gallows-humour', done
+
+      beforeEach ->
+        @client.on 'message', (error, @message) =>
+
+      it 'should deliver a message', ->
+        _.delay =>
+          expect(@message).to.equal 'gallows-humour'
+        , 100

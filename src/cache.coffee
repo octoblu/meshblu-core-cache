@@ -14,6 +14,9 @@ class Cache
   lpush: (key, value, callback) =>
     @client.lpush key, value, callback
 
+  publish: (key, message, callback) =>
+    @client.publish key, message, callback
+
   set: (key, value, callback) =>
     @client.set key, value, (error, ignored) => callback error
 
