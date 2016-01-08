@@ -94,7 +94,8 @@ describe 'Cache', ->
       beforeEach ->
         @client.on 'message', (error, @message) =>
 
-      it 'should deliver a message', ->
+      it 'should deliver a message', (done) ->
         _.delay =>
           expect(@message).to.equal 'gallows-humour'
+          done()
         , 100
