@@ -73,6 +73,19 @@ describe 'Cache', ->
       it 'should exist', ->
         expect(@record).to.equal 'here-lies-the-rev-lt-col-dr-sir-john-doe-mba-phd-esq'
 
+  describe '->expire', ->
+    describe 'when a value is set, and we later expire it', ->
+      beforeEach (done) ->
+        sirJohnEtAl = 'here-lies-the-rev-lt-col-dr-sir-john-doe-mba-phd-esq'
+        @sut.set 'trying-too-hard', sirJohnEtAl, (error, @result) =>
+          @sut.expire 'trying-too-hard', 1, done
+
+      beforeEach (done) ->
+        _.delay (=> @client.get 'trying-too-hard', (error, @record) => done error), 1000
+
+      it 'should not exist', ->
+        expect(@record).to.not.exist
+
   describe '->lpush', ->
     describe 'when there is something', ->
       beforeEach (done) ->

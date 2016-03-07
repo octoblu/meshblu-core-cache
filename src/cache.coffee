@@ -1,3 +1,5 @@
+_ = require 'lodash'
+
 class Cache
   constructor: ({@client}) ->
 
@@ -22,5 +24,8 @@ class Cache
 
   setex: (key, time, value, callback) =>
     @client.setex key, time, value, (error, ignored) => callback error
+
+  expire: (key, time, callback) =>
+    @client.expire key, time, (error, ignored) => callback error
 
 module.exports = Cache
