@@ -74,17 +74,17 @@ describe 'Cache', ->
         expect(@record).to.equal 'here-lies-the-rev-lt-col-dr-sir-john-doe-mba-phd-esq'
 
   describe '->expire', ->
-    describe 'when a value is set, and we later expire it', ->
+    describe 'when a value is set, and we later expire it (shoulda probably used setex)', ->
       beforeEach (done) ->
         sirJohnEtAl = 'here-lies-the-rev-lt-col-dr-sir-john-doe-mba-phd-esq'
         @sut.set 'trying-too-hard', sirJohnEtAl, (error, @result) =>
           @sut.expire 'trying-too-hard', 1, done
 
-      beforeEach (done) ->
-        _.delay (=> @client.get 'trying-too-hard', (error, @record) => done error), 1000
-
-      it 'should not exist', ->
-        expect(@record).to.not.exist
+      it 'should have a ttl of 1', (done) ->
+        @client.ttl 'trying-too-hard', (error, ttl) =>
+          return done error if error?
+          expect(ttl).to.equal 1
+          done()
 
   describe '->lpush', ->
     describe 'when there is something', ->
@@ -102,13 +102,30 @@ describe 'Cache', ->
         @client.subscribe 'hanged-by-the-british', (error, @message) => done error
 
       beforeEach (done) ->
-        @sut.publish 'hanged-by-the-british', 'gallows-humour', done
+        @client.on 'message', (channel, @message) => done()
+        @sut.publish 'hanged-by-the-british', 'gallows-humour', (error) =>
+          throw error if error?
 
-      beforeEach ->
-        @client.on 'message', (error, @message) =>
+      it 'should deliver a message', ->
+        expect(@message).to.equal 'gallows-humour'
 
-      it 'should deliver a message', (done) ->
-        _.delay =>
-          expect(@message).to.equal 'gallows-humour'
+  describe '->ttl', ->
+    describe 'when a record has no ttl', ->
+      beforeEach (done) ->
+        @client.set 'record', 'dark-side-of-the-moon', done
+
+      it 'should have a ttl of -1', (done) ->
+        @sut.ttl 'record', (error, ttl) =>
+          return done error if error?
+          expect(ttl).to.equal -1
           done()
-        , 100
+
+    describe 'when a record has a ttl of 86400', ->
+      beforeEach (done) ->
+        @client.setex 'record', 86400, 'dark-side-of-the-moon', done
+
+      it 'should have a ttl of 86400', (done) ->
+        @sut.ttl 'record', (error, ttl) =>
+          return done error if error?
+          expect(ttl).to.equal 86400
+          done()

@@ -25,6 +25,9 @@ class Cache
   setex: (key, time, value, callback) =>
     @client.setex key, time, value, (error, ignored) => callback error
 
+  ttl: (key, callback) =>
+    @client.ttl key, callback
+
   expire: (key, time, callback) =>
     @client.expire key, time, (error, ignored) => callback error
 
