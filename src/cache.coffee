@@ -10,6 +10,13 @@ class Cache
     @client.exists key, (error, result) =>
       callback error, (result == 1)
 
+  hset: (key, field, value, callback) =>
+    @client.hset key, field, value, (error, result) =>
+      callback error, (result == 1)
+
+  hget: (key, field, callback) =>
+    @client.hget key, field, callback
+
   get: (key, callback) =>
     @client.get key, callback
 

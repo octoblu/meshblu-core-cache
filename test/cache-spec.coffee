@@ -58,6 +58,24 @@ describe 'Cache', ->
       it 'should yield voracious-animals', ->
         expect(@result).to.deep.equal 'voracious-animals'
 
+  describe '->hget', ->
+    describe 'when there is nothing', ->
+      beforeEach (done) ->
+        @sut.hget 'my-hash', 'some-non-extant-key', (error, @result) => done error
+
+      it 'should yield nothing', ->
+        expect(@result).not.to.exist
+
+    describe 'when there is something', ->
+      beforeEach (done) ->
+        @client.hset 'my-hash', 'some-extant-key', 'voracious-animals', done
+
+      beforeEach (done) ->
+        @sut.hget 'my-hash', 'some-extant-key', (error, @result) => done error
+
+      it 'should yield voracious-animals', ->
+        expect(@result).to.deep.equal 'voracious-animals'
+
   describe '->set', ->
     describe 'trying too hard', ->
       beforeEach (done) ->
@@ -69,6 +87,21 @@ describe 'Cache', ->
 
       it 'should yield NOTHING!', ->
         expect(@result).not.to.exist
+
+      it 'should exist', ->
+        expect(@record).to.equal 'here-lies-the-rev-lt-col-dr-sir-john-doe-mba-phd-esq'
+
+  describe '->hset', ->
+    describe 'trying too hard', ->
+      beforeEach (done) ->
+        sirJohnEtAl = 'here-lies-the-rev-lt-col-dr-sir-john-doe-mba-phd-esq'
+        @sut.hset 'my-hash', 'trying-too-hard', sirJohnEtAl, (error, @result) => done error
+
+      beforeEach (done) ->
+        @client.hget 'my-hash', 'trying-too-hard', (error, @record) => done error
+
+      it 'should yield true', ->
+        expect(@result).to.be.true
 
       it 'should exist', ->
         expect(@record).to.equal 'here-lies-the-rev-lt-col-dr-sir-john-doe-mba-phd-esq'
