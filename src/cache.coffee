@@ -38,4 +38,7 @@ class Cache
   expire: (key, time, callback) =>
     @client.expire key, time, (error, ignored) => callback error
 
+  hincrby: (key, field, increment, callback) =>
+    @client.hincrby key, field, increment, callback
+
 module.exports = Cache

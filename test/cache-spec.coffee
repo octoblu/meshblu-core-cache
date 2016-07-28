@@ -162,3 +162,24 @@ describe 'Cache', ->
           return done error if error?
           expect(ttl).to.equal 86400
           done()
+
+  describe '->hincrby', ->
+    describe 'when we increment nothing', ->
+      beforeEach (done) ->
+        @sut.hincrby 'delta-delta-delta', 'alpha-omega', 9000, (error) => done error
+
+      it 'should increment to the right field and value', (done) ->
+        @client.hget 'delta-delta-delta', 'alpha-omega', (error, result) =>
+          expect(result).to.equal 9000
+          done error
+
+    describe 'when we increment and decrement something', ->
+      beforeEach (done) ->
+        @sut.hincrby 'delta-delta-delta', 'alpha-omega', 9000, (error) =>
+          @sut.hincrby 'delta-delta-delta', 'alpha-omega', -1001, (error) =>
+            done error
+
+      it 'should increment and decrement to the right field and value', (done) ->
+        @client.hget 'delta-delta-delta', 'alpha-omega', (error, result) =>
+          expect(result).to.equal 7999
+          done error
