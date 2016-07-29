@@ -3,7 +3,7 @@ _ = require 'lodash'
 class Cache
   constructor: ({@client}) ->
 
-  del: (key, callback) =>
+  del: (key, callback=->) =>
     @client.del key, callback
 
   exists: (key, callback) =>
@@ -20,10 +20,10 @@ class Cache
   get: (key, callback) =>
     @client.get key, callback
 
-  lpush: (key, value, callback) =>
+  lpush: (key, value, callback=->) =>
     @client.lpush key, value, callback
 
-  publish: (key, message, callback) =>
+  publish: (key, message, callback=->) =>
     @client.publish key, message, callback
 
   set: (key, value, callback=->) =>
@@ -38,7 +38,7 @@ class Cache
   expire: (key, time, callback=->) =>
     @client.expire key, time, (error, ignored) => callback error
 
-  hincrby: (key, field, increment, callback) =>
+  hincrby: (key, field, increment, callback=->) =>
     @client.hincrby key, field, increment, callback
 
 module.exports = Cache

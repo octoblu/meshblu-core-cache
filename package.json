@@ -1,6 +1,6 @@
 {
   "name": "meshblu-core-cache",
-  "version": "1.8.1",
+  "version": "1.8.2",
   "description": "Meshblu Cache",
   "main": "index.js",
   "scripts": {
