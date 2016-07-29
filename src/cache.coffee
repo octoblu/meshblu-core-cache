@@ -10,7 +10,7 @@ class Cache
     @client.exists key, (error, result) =>
       callback error, (result == 1)
 
-  hset: (key, field, value, callback) =>
+  hset: (key, field, value, callback=->) =>
     @client.hset key, field, value, (error, result) =>
       callback error, (result == 1)
 
@@ -26,16 +26,16 @@ class Cache
   publish: (key, message, callback) =>
     @client.publish key, message, callback
 
-  set: (key, value, callback) =>
+  set: (key, value, callback=->) =>
     @client.set key, value, (error, ignored) => callback error
 
-  setex: (key, time, value, callback) =>
+  setex: (key, time, value, callback=->) =>
     @client.setex key, time, value, (error, ignored) => callback error
 
   ttl: (key, callback) =>
     @client.ttl key, callback
 
-  expire: (key, time, callback) =>
+  expire: (key, time, callback=->) =>
     @client.expire key, time, (error, ignored) => callback error
 
   hincrby: (key, field, increment, callback) =>
