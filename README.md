@@ -2,7 +2,10 @@
 Meshblu cache
 
 [![Build Status](https://travis-ci.org/octoblu/meshblu-core-cache.svg?branch=master)](https://travis-ci.org/octoblu/meshblu-core-cache)
-[![Code Climate](https://codeclimate.com/github/octoblu/meshblu-core-cache/badges/gpa.svg)](https://codeclimate.com/github/octoblu/meshblu-core-cache)
-[![Test Coverage](https://codeclimate.com/github/octoblu/meshblu-core-cache/badges/coverage.svg)](https://codeclimate.com/github/octoblu/meshblu-core-cache)
-[![npm version](https://badge.fury.io/js/meshblu-core-cache.svg)](http://badge.fury.io/js/meshblu-core-cache)
-[![Gitter](https://badges.gitter.im/octoblu/help.svg)](https://gitter.im/octoblu/help)
+[![Test Coverage](https://codecov.io/gh/octoblu/meshblu-core-cache/branch/master/graph/badge.svg)](https://codecov.io/gh/octoblu/meshblu-core-cache)
+[![Dependency status](http://img.shields.io/david/octoblu/meshblu-core-cache.svg?style=flat)](https://david-dm.org/octoblu/meshblu-core-cache)
+[![devDependency Status](http://img.shields.io/david/dev/octoblu/meshblu-core-cache.svg?style=flat)](https://david-dm.org/octoblu/meshblu-core-cache#info=devDependencies)
+[![Slack Status](http://community-slack.octoblu.com/badge.svg)](http://community-slack.octoblu.com)
+
+[![NPM](https://nodei.co/npm/meshblu-core-cache.svg?style=flat)](https://npmjs.org/package/meshblu-core-cache)
+
