@@ -20,6 +20,9 @@ class Cache
   get: (key, callback) =>
     @client.get key, callback
 
+  llen: (key, callback) =>
+    @client.llen key, callback
+
   lpush: (key, value, callback=->) =>
     @client.lpush key, value, callback
 

@@ -58,6 +58,24 @@ describe 'Cache', ->
       it 'should yield voracious-animals', ->
         expect(@result).to.deep.equal 'voracious-animals'
 
+  describe '->llen', ->
+    describe 'when there is nothing', ->
+      beforeEach (done) ->
+        @sut.llen 'some-non-extant-key', (error, @result) => done error
+
+      it 'should yield 0', ->
+        expect(@result).to.equal 0
+
+    describe 'when there is something', ->
+      beforeEach (done) ->
+        @client.lpush 'some-extant-key', 'voracious-animals', done
+
+      beforeEach (done) ->
+        @sut.llen 'some-extant-key', (error, @result) => done error
+
+      it 'should yield 1', ->
+        expect(@result).to.equal 1
+
   describe '->hget', ->
     describe 'when there is nothing', ->
       beforeEach (done) ->
